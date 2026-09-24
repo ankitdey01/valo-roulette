@@ -1,0 +1,23 @@
+[
+  { "name": "Classic", "price": 0, "type": "Sidearm" },
+  { "name": "Shorty", "price": 300, "type": "Sidearm" },
+  { "name": "Frenzy", "price": 450, "type": "Sidearm" },
+  { "name": "Ghost", "price": 500, "type": "Sidearm" },
+  { "name": "Bandit", "price": 600, "type": "Sidearm" },
+  { "name": "Sheriff", "price": 800, "type": "Sidearm" },
+  { "name": "Bucky", "price": 850, "type": "Shotgun" },
+  { "name": "Marshal", "price": 950, "type": "Sniper" },
+  { "name": "Stinger", "price": 1100, "type": "SMG" },
+  { "name": "Spectre", "price": 1600, "type": "SMG" },
+  { "name": "Ares", "price": 1600, "type": "Heavy" },
+  { "name": "Judge", "price": 1850, "type": "Shotgun" },
+  { "name": "Bulldog", "price": 2050, "type": "Rifle" },
+  { "name": "Guardian", "price": 2250, "type": "Rifle" },
+  { "name": "Outlaw", "price": 2400, "type": "Sniper" },
+  { "name": "Vandal", "price": 2900, "type": "Rifle" },
+  { "name": "Phantom", "price": 2900, "type": "Rifle" },
+  { "name": "Warden", "price": 2900, "type": "Rifle" },
+  { "name": "Odin", "price": 3200, "type": "Heavy" },
+  { "name": "Operator", "price": 4700, "type": "Sniper" },
+  { "name": "Melee", "price": 0, "type": "Melee" }
+]

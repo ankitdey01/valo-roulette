@@ -1,0 +1,80 @@
+[
+  {
+    "name": "Abyss",
+    "description": "A clandestine base buried deep within an endless chasm under Jan Mayen, Norway. The first VALORANT map with no outer boundaries and death drops in Mid, plus rope ascenders and destructible doors guarding Vent.",
+    "photo": "https://via.placeholder.com/512?text=Abyss",
+    "sites": ["A", "B"]
+  },
+  {
+    "name": "Ascent",
+    "description": "An open playground for small wars of position and attrition in Venice, Italy. Two sites that can be fortified by irreversible bomb doors; once they're down, you'll have to destroy them or find another way.",
+    "photo": "https://via.placeholder.com/512?text=Ascent",
+    "sites": ["A", "B"]
+  },
+  {
+    "name": "Bind",
+    "description": "Two sites in Rabat, Morocco with no middle. Attackers pick left or right down direct paths, while a pair of one-way teleporters make rotations and flanks unlike any other map.",
+    "photo": "https://via.placeholder.com/512?text=Bind",
+    "sites": ["A", "B"]
+  },
+  {
+    "name": "Breeze",
+    "description": "A big, open island map in the Bermuda Triangle built for long-range gunfights. Wide sightlines mean rifles and Operators rule, with large sites rewarding careful spacing.",
+    "photo": "https://via.placeholder.com/512?text=Breeze",
+    "sites": ["A", "B"]
+  },
+  {
+    "name": "Corrode",
+    "description": "A corroded French castle town at Mont-Saint-Michel turned Radianite salt-mining site. A deliberately gimmick-free two-site map built to favor gunplay over ability spam.",
+    "photo": "https://via.placeholder.com/512?text=Corrode",
+    "sites": ["A", "B"]
+  },
+  {
+    "name": "Fracture",
+    "description": "An H-shaped experiment in Santa Fe, New Mexico where attackers can hit both sites from two directions at once, flipping normal map pressure on its head.",
+    "photo": "https://via.placeholder.com/512?text=Fracture",
+    "sites": ["A", "B"]
+  },
+  {
+    "name": "Haven",
+    "description": "Beneath a forgotten monastery in Thimphu, Bhutan, rival Agents clash to control three sites. More territory to hold means defenders are stretched thin, so fast rotations and info-gathering win here.",
+    "photo": "https://via.placeholder.com/512?text=Haven",
+    "sites": ["A", "B", "C"]
+  },
+  {
+    "name": "Icebox",
+    "description": "A secret Kingdom excavation site on Bennett Island, Russia overtaken by the arctic. Ziplines, layered verticality, and awkward angles everywhere reward aggressive off-angle play.",
+    "photo": "https://via.placeholder.com/512?text=Icebox",
+    "sites": ["A", "B"]
+  },
+  {
+    "name": "Lotus",
+    "description": "A mysterious structure in India's Western Ghats housing an astral conduit. Three sites with rotating stone doors and a silent drop unlock a variety of movement paths.",
+    "photo": "https://via.placeholder.com/512?text=Lotus",
+    "sites": ["A", "B", "C"]
+  },
+  {
+    "name": "Pearl",
+    "description": "An underwater city in Lisbon, Portugal with a traditional two-site, three-lane layout and no gimmicks. Pure fundamentals decide every round.",
+    "photo": "https://via.placeholder.com/512?text=Pearl",
+    "sites": ["A", "B"]
+  },
+  {
+    "name": "Split",
+    "description": "A tight, vertical map in Tokyo, Japan where two sites are split by an elevated center. Rope ascenders allow rapid movement, and each site's looming tower is vital for control.",
+    "photo": "https://via.placeholder.com/512?text=Split",
+    "sites": ["A", "B"]
+  },
+  {
+    "name": "Summit",
+    "description": "The newest map set in Zhangjiajie, China. A three-lane, two-site layout with droppable walls at A, Mid, and B — shoot the switch and the wall comes down, permanently sealing that route and its sightlines for the rest of the round.",
+    "photo": "https://via.placeholder.com/512?text=Summit",
+    "sites": ["A", "B"]
+  },
+  {
+    "name": "Sunset",
+    "description": "A compact two-site map in Los Angeles with a mechanical door on Mid. Taking and holding Mid opens pressure onto both sites, so most rounds are decided by who wins it.",
+    "photo": "https://via.placeholder.com/512?text=Sunset",
+    "sites": ["A", "B"]
+  }
+]
