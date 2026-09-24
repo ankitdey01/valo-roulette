@@ -3,6 +3,7 @@ import { Press_Start_2P, VT323 } from "next/font/google";
 import "./globals.css";
 import { HudNav } from "@/components/pixel";
 import { SITE_URL } from "@/lib/runs";
+import { Analytics } from "@vercel/analytics/next";
 
 const px = Press_Start_2P({
   weight: "400",
@@ -86,6 +87,7 @@ export default function RootLayout({
             </p>
           </div>
         </footer>
+        <Analytics />
       </body>
     </html>
   );
