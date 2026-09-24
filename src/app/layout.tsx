@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Press_Start_2P, VT323 } from "next/font/google";
 import "./globals.css";
 import { HudNav } from "@/components/pixel";
@@ -16,6 +16,13 @@ const hud = VT323({
   variable: "--font-hud",
 });
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
@@ -24,6 +31,9 @@ export const metadata: Metadata = {
   },
   description:
     "A fan-made VALORANT playground. Roll your Agent, accept chaos, stamp the challenge, flex the banner. No rerolls.",
+  icons: {
+    icon: "/favicon.svg",
+  },
   openGraph: {
     type: "website",
     siteName: "VALO ROULETTE",

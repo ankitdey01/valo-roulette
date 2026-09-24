@@ -21,10 +21,10 @@ export default function ChallengeRoomPage() {
         <p style={PX} className="text-[10px] text-[var(--color-gold)]">
           {"// ROUND BY ROUND"}
         </p>
-        <h1 style={PX} className="mt-3 text-2xl text-[var(--color-bone)] sm:text-3xl">
+        <h1 style={PX} className="mt-3 text-xl text-[var(--color-bone)] sm:text-2xl md:text-3xl">
           CHALLENGE <span className="text-[var(--color-blood)]">ROOM</span>
         </h1>
-        <p className="mt-2 max-w-2xl text-2xl text-[var(--color-smoke)]">
+        <p className="mt-2 max-w-2xl text-lg text-[var(--color-smoke)] sm:text-xl md:text-2xl">
           One round at a time. Pistol first. Budget scales. Abilities matter.
           Minimum 13 rounds. Score at the end.
         </p>

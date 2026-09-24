@@ -249,7 +249,7 @@ export function ChallengeRoom() {
             <p className="mt-1 text-xl text-[var(--color-ash)]">
               {score.pct >= 80 ? "DOMINANT." : score.pct >= 60 ? "SOLID." : score.pct >= 40 ? "SHAKY." : "FATE DENIED."}
             </p>
-            <div className="mt-4 flex flex-wrap gap-3">
+            <div className="mt-4 flex flex-col gap-3">
               <PixelButton variant="blood" onClick={() => router.push("/challenge-run")}>
                 [ RETURN TO CHALLENGE RUN ]
               </PixelButton>
@@ -259,11 +259,11 @@ export function ChallengeRoom() {
         )}
 
         {!matchEnded && (
-          <div className="mt-4 flex flex-wrap gap-3">
+          <div className="mt-4 flex flex-col gap-3 sm:flex-row">
             {rounds.some((r) => r.round === currentRound) ? (
               <PixelButton
                 variant="ghost"
-                className="flex-1 min-w-[200px] cursor-default border-2 border-[var(--color-edge)] opacity-70"
+                className="flex-1 min-w-full sm:min-w-[200px] cursor-default border-2 border-[var(--color-edge)] opacity-70"
                 onClick={() => {}}
               >
                 [ ROUND EXISTS ]
@@ -271,83 +271,92 @@ export function ChallengeRoom() {
             ) : (
               <PixelButton
                 variant="blood"
-                className="flex-1 min-w-[200px]"
+                className="flex-1 min-w-full sm:min-w-[200px]"
                 onClick={generateForCurrent}
               >
                 [ GENERATE ROUND {currentRound} ]
               </PixelButton>
             )}
-            <PixelButton variant="ghost" onClick={endMatchEarly} className="flex-1 min-w-[200px]">
+            <PixelButton variant="ghost" onClick={endMatchEarly} className="flex-1 min-w-full sm:min-w-[200px]">
               [ END MATCH & SCORE ]
             </PixelButton>
           </div>
         )}
 
-        <div className="mt-4 overflow-x-auto">
-          <table className="w-full text-left text-sm" style={PX}>
-            <thead>
-              <tr className="border-b-2 border-[var(--color-ash)] text-[var(--color-gold)]">
-                <th className="p-2 w-16">ROUND</th>
-                <th className="p-2">CHALLENGE</th>
-                <th className="p-2 w-24">BUDGET</th>
-                <th className="p-2 w-40">WEAPONS</th>
-                <th className="p-2 w-20">STATUS</th>
-              </tr>
-            </thead>
-            <tbody>
-              {rounds.map((r, i) => (
-                <tr key={r.round} className="border-b border-[var(--color-edge)]">
-                  <td className="p-2 text-[var(--color-gold)]">{r.round}</td>
-                  <td className="p-2 text-[var(--color-bone)] max-w-md">
-                    <div>{r.challenge}</div>
-                    {r.abilityFocus && (
-                      <span className="block mt-1 text-[10px] text-[var(--color-blood)]">
-                        ABILITY: {r.abilityFocus}
-                      </span>
-                    )}
-                    {r.notes && (
-                      <input
-                        type="text"
-                        value={r.notes}
-                        onChange={(e) => addNotes(i, e.target.value)}
-                        placeholder="Notes..."
-                        className="mt-1 w-full text-[10px] border border-[var(--color-ash)] bg-[var(--color-void)] text-[var(--color-bone)] px-1"
-                        style={PX}
-                      />
-                    )}
-                  </td>
-                  <td className="p-2 text-[var(--color-ash)]">${r.budget}</td>
-                  <td className="p-2 text-[var(--color-smoke)]">{r.weaponPool.join(" / ")}</td>
-                  <td className="p-2">
-                    {r.completed === null ? (
-                      <div className="flex gap-1">
-                        <button
-                          type="button"
-                          onClick={() => toggleRound(i, true)}
-                          className="px-2 py-1 text-[9px] border border-[var(--color-blood)] text-[var(--color-blood)] hover:bg-[var(--color-blood)] hover:text-[var(--color-bone)]"
-                          style={PX}
-                        >
-                          [ ✓ ]
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => toggleRound(i, false)}
-                          className="px-2 py-1 text-[9px] border border-[var(--color-ash)] text-[var(--color-ash)] hover:bg-[var(--color-ash)] hover:text-[var(--color-void)]"
-                          style={PX}
-                        >
-                          [ ✗ ]
-                        </button>
-                      </div>
-                    ) : r.completed ? (
-                      <span className="text-[var(--color-blood)]" style={PX}>CLEARED</span>
-                    ) : (
-                      <span className="text-[var(--color-ash)]" style={PX}>FAILED</span>
-                    )}
-                  </td>
+        <div className="mt-4 overflow-x-auto -mx-4 sm:mx-0">
+          <div className="inline-block min-w-full align-middle">
+            <table className="w-full text-left text-sm border-collapse" style={PX}>
+              <thead>
+                <tr className="border-b-2 border-[var(--color-ash)] text-[var(--color-gold)]">
+                  <th className="p-2 w-12 sm:w-16">RND</th>
+                  <th className="p-2 min-w-[200px]">CHALLENGE</th>
+                  <th className="p-2 w-20 sm:w-24 hidden sm:table-cell">BUDGET</th>
+                  <th className="p-2 w-32 sm:w-40 hidden md:table-cell">WEAPONS</th>
+                  <th className="p-2 w-16 sm:w-20">STATUS</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {rounds.map((r, i) => (
+                  <tr key={r.round} className="border-b border-[var(--color-edge)]">
+                    <td className="p-2 text-[var(--color-gold)]">{r.round}</td>
+                    <td className="p-2 text-[var(--color-bone)]">
+                      <div className="max-w-md">
+                        <div className="text-xs sm:text-sm">{r.challenge}</div>
+                        {r.abilityFocus && (
+                          <span className="block mt-1 text-[8px] sm:text-[10px] text-[var(--color-blood)]">
+                            ABILITY: {r.abilityFocus}
+                          </span>
+                        )}
+                        <div className="mt-1 sm:hidden text-[9px] text-[var(--color-ash)]">
+                          ${r.budget} • {r.weaponPool.join(" / ")}
+                        </div>
+                        {r.notes && (
+                          <input
+                            type="text"
+                            value={r.notes}
+                            onChange={(e) => addNotes(i, e.target.value)}
+                            placeholder="Notes..."
+                            className="mt-1 w-full text-[9px] sm:text-[10px] border border-[var(--color-ash)] bg-[var(--color-void)] text-[var(--color-bone)] px-1"
+                            style={PX}
+                          />
+                        )}
+                      </div>
+                    </td>
+                    <td className="p-2 text-[var(--color-ash)] hidden sm:table-cell">${r.budget}</td>
+                    <td className="p-2 text-[var(--color-smoke)] hidden md:table-cell">
+                      <div className="text-xs">{r.weaponPool.join(" / ")}</div>
+                    </td>
+                    <td className="p-2">
+                      {r.completed === null ? (
+                        <div className="flex gap-1">
+                          <button
+                            type="button"
+                            onClick={() => toggleRound(i, true)}
+                            className="px-1.5 py-1 text-[8px] sm:text-[9px] border border-[var(--color-blood)] text-[var(--color-blood)] hover:bg-[var(--color-blood)] hover:text-[var(--color-bone)]"
+                            style={PX}
+                          >
+                            [ ✓ ]
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => toggleRound(i, false)}
+                            className="px-1.5 py-1 text-[8px] sm:text-[9px] border border-[var(--color-ash)] text-[var(--color-ash)] hover:bg-[var(--color-ash)] hover:text-[var(--color-void)]"
+                            style={PX}
+                          >
+                            [ ✗ ]
+                          </button>
+                        </div>
+                      ) : r.completed ? (
+                        <span className="text-[var(--color-blood)] text-xs sm:text-sm" style={PX}>DONE</span>
+                      ) : (
+                        <span className="text-[var(--color-ash)] text-xs sm:text-sm" style={PX}>FAIL</span>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
 
         <div className="mt-4 text-center text-[var(--color-ash)]" style={PX}>

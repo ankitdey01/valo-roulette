@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
-import { ShowcaseBoard } from "@/components/showcase";
+import { ChallengeRunBoard } from "@/components/showcase";
+import { ShowcaseGallery } from "@/components/showcase";
 
 export const metadata: Metadata = {
-  title: "CHALLENGE RUN // Valo Roulette",
+  title: "CHALLENGE // Valo Roulette",
   description:
-    "Start a fated challenge, stamp it cleared or failed, and flex the banner on X, WhatsApp, Telegram, and Instagram.",
+    "Track your challenge runs. Quick stamp or detailed round-by-round mode. Compare all completed runs.",
   openGraph: {
-    title: "CHALLENGE RUN // Valo Roulette",
+    title: "CHALLENGE // Valo Roulette",
     description:
-      "Start a run. Stamp it. Flex the banner everywhere.",
+      "Quick stamp or round-by-round tracking. Your fate, your proof.",
   },
 };
 
@@ -21,14 +22,17 @@ export default function ChallengeRunPage() {
         <p style={PX} className="text-[10px] text-[var(--color-gold)]">
           {"// PROOF OF FATE"}
         </p>
-        <h1 style={PX} className="mt-3 text-2xl text-[var(--color-bone)] sm:text-3xl">
-          CHALLENGE <span className="text-[var(--color-blood)]">RUN</span>
+        <h1 style={PX} className="mt-3 text-xl text-[var(--color-bone)] sm:text-2xl md:text-3xl">
+          <span className="text-[var(--color-blood)]">CHALLENGE</span> TRACKER
         </h1>
-        <p className="mt-2 max-w-2xl text-2xl text-[var(--color-smoke)]">
-          Start a run. Stamp it. Flex the banner.
+        <p className="mt-2 max-w-2xl text-lg text-[var(--color-smoke)] sm:text-xl md:text-2xl">
+          Quick stamp or track round-by-round. Compare your completed runs.
         </p>
       </div>
-      <ShowcaseBoard />
+      <ChallengeRunBoard />
+      <div className="mt-8">
+        <ShowcaseGallery />
+      </div>
     </div>
   );
 }

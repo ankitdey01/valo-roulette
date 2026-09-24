@@ -25,17 +25,17 @@ function ShareCard({ agent, rollNo, streak }: { agent: Agent; rollNo: number; st
   const text = `YOUR FATE HAS BEEN DECIDED\n${agent.name} (${agent.role})\n${quipFor(agent.name)}\nROLL #${rollNo} // STREAK ${streak}\nNo rerolls. Lock it in.\nVALO ROULETTE`;
 
   return (
-    <div className="border-2 border-[var(--color-blood)] bg-[var(--color-void)] p-4">
+    <div className="relative z-10 border-2 border-[var(--color-blood)] bg-[var(--color-void)] p-4">
       <p style={PX} className="text-[9px] text-[var(--color-gold)]">
         YOUR FATE HAS BEEN DECIDED
       </p>
-      <p style={PX} className="mt-3 text-2xl text-[var(--color-bone)]">
+      <p style={PX} className="mt-3 text-xl text-[var(--color-bone)] sm:text-2xl">
         {agent.name}
       </p>
-      <p className="mt-1 text-xl text-[var(--color-smoke)]">
+      <p className="mt-1 text-lg text-[var(--color-smoke)] sm:text-xl">
         {agent.role} {"//"} ROLL #{rollNo}
       </p>
-      <p className="mt-2 text-xl text-[var(--color-bone)]">{quipFor(agent.name)}</p>
+      <p className="mt-2 text-lg text-[var(--color-bone)] sm:text-xl">{quipFor(agent.name)}</p>
       <p style={PX} className="mt-3 text-[9px] text-[var(--color-ash)]">
         VALO ROULETTE /// NO REROLLS
       </p>
@@ -170,15 +170,15 @@ export function Roulette() {
     >
       <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
         {/* chamber */}
-        <div className="scanlines relative flex min-h-[380px] flex-col justify-between overflow-hidden border-2 border-[var(--color-edge)] bg-[var(--color-void)] p-5">
+        <div className="scanlines relative z-0 flex min-h-[380px] flex-col justify-between overflow-hidden border-2 border-[var(--color-edge)] bg-[var(--color-void)] p-5">
           <div className="flex flex-col gap-1" aria-live="polite">
             {phase === "idle" && (
-              <p className="text-2xl text-[var(--color-ash)]">
+              <p className="text-xl text-[var(--color-ash)] sm:text-2xl">
                 {"// AWAITING INPUT. PRESS ROLL AGENT."}
               </p>
             )}
             {lines.map((l) => (
-              <p key={l} className="text-2xl text-[var(--color-smoke)]">
+              <p key={l} className="text-lg text-[var(--color-smoke)] sm:text-xl md:text-2xl">
                 {">>>"} {l}
               </p>
             ))}
@@ -205,25 +205,25 @@ export function Roulette() {
                   <div>
                     <p
                       style={PX}
-                      className="text-3xl text-[var(--color-bone)] sm:text-4xl"
+                      className="text-2xl text-[var(--color-bone)] sm:text-3xl md:text-4xl"
                     >
                       {agent.name.toUpperCase()}
                     </p>
-                    <p className="mt-2 text-2xl text-[var(--color-smoke)]">
+                    <p className="mt-2 text-xl text-[var(--color-smoke)] sm:text-2xl">
                       {agent.role} {"//"} {agent.gender}
                     </p>
                   </div>
                 </div>
-                <p className="mt-3 text-2xl text-[var(--color-bone)]">
+                <p className="mt-3 text-lg text-[var(--color-bone)] sm:text-xl md:text-2xl">
                   {quipFor(agent.name)}
                 </p>
                 {poolReset && (
-                  <p className="mt-2 text-2xl text-[var(--color-gold)]">
+                  <p className="mt-2 text-lg text-[var(--color-gold)] sm:text-xl md:text-2xl">
                     {"// POOL EXHAUSTED. ALL 29 SEEN. POOL RESET."}
                   </p>
                 )}
                 {suspicious && (
-                  <p className="mt-2 text-2xl text-[var(--color-blood)]">
+                  <p className="mt-2 text-lg text-[var(--color-blood)] sm:text-xl md:text-2xl">
                     {"// STATISTICALLY SUSPICIOUS. THREE IN A ROW. WE ARE WATCHING."}
                   </p>
                 )}
@@ -238,12 +238,21 @@ export function Roulette() {
             )}
           </div>
 
-          <div className="mt-4 flex flex-col gap-3 sm:flex-row">
-            <PixelButton variant="blood" onClick={roll} className="flex-1">
+          <div className="relative z-10 mt-4 flex flex-col gap-3 sm:flex-row">
+            <PixelButton 
+              variant="blood" 
+              onClick={() => roll()} 
+              className="flex-1 w-full sm:w-auto"
+              disabled={phase === "spinning"}
+            >
               {phase === "spinning" ? "[ ROLLING... ]" : "[ ROLL AGENT ]"}
             </PixelButton>
             {phase === "revealed" && agent && (
-              <PixelButton onClick={lockIn} className="flex-1">
+              <PixelButton 
+                onClick={() => lockIn()} 
+                className="flex-1 w-full sm:w-auto"
+                disabled={locked}
+              >
                 {locked ? "[ LOCKED IN ]" : "[ LOCK IN ]"}
               </PixelButton>
             )}
@@ -251,16 +260,17 @@ export function Roulette() {
           {phase === "revealed" && agent && (
             <button
               type="button"
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation();
                 runs.setActive(rollChallenge(agent.name));
-                router.push("/challenge-room");
+                router.push("/challenge-run");
               }}
-              className="mt-3 cursor-pointer text-left text-xl text-[var(--color-gold)] hover:text-[var(--color-blood)]"
+              className="relative z-10 mt-4 touch-manipulation block w-full cursor-pointer border-2 border-[var(--color-gold)] bg-[var(--color-void)] px-4 py-3 text-left text-base text-[var(--color-gold)] active:bg-[var(--color-gold)] active:bg-opacity-10 sm:text-lg"
             >
-              {"[ take this agent into the challenge room >>> ]"}
+              {"[ START CHALLENGE >>> ]"}
             </button>
           )}
-          <p className="mt-3 text-xl text-[var(--color-ash)]">
+          <p className="relative z-10 mt-3 text-lg text-[var(--color-ash)] sm:text-xl">
             {"// No duplicates until all 29 are seen."}
           </p>
         </div>

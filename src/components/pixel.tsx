@@ -15,12 +15,14 @@ export function PixelButton({
   variant = "bone",
   className = "",
   type = "button",
+  disabled = false,
 }: {
   children: React.ReactNode;
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   variant?: "bone" | "blood" | "ghost";
   className?: string;
   type?: "button" | "submit";
+  disabled?: boolean;
 }) {
   const faces =
     variant === "blood"
@@ -31,12 +33,14 @@ export function PixelButton({
   return (
     <button
       type={type}
-      onClick={() => {
+      disabled={disabled}
+      onClick={(e) => {
+        if (disabled) return;
         sfx.click();
-        onClick?.();
+        onClick?.(e);
       }}
       style={PX}
-      className={`px-btn cursor-pointer px-6 py-4 text-xs sm:text-sm ${faces} ${className}`}
+      className={`px-btn touch-manipulation cursor-pointer px-4 py-3 text-xs sm:px-6 sm:py-4 sm:text-sm ${faces} ${disabled ? "opacity-50 cursor-not-allowed" : ""} ${className}`}
     >
       {children}
     </button>
@@ -186,6 +190,7 @@ export function TelemetryStrip() {
 
 export function HudNav() {
   const [on, setOn] = useState(true);
+  const [menuOpen, setMenuOpen] = useState(false);
   const path = usePathname();
 
   useEffect(() => {
@@ -194,58 +199,127 @@ export function HudNav() {
     setOn(store.getSfx());
   }, []);
 
+  useEffect(() => {
+    // Close menu on route change
+    setMenuOpen(false);
+  }, [path]);
+
   const links: Array<[string, string]> = [
     ["ROLL", "/"],
     ["CHAOS", "/chaos"],
-    ["GUNS", "/weapons"],
+    ["CHALLENGE", "/challenge-run"],
     ["AGENTS", "/agents"],
+    ["WEAPONS", "/weapons"],
     ["DAILY", "/daily"],
-    ["CHALLENGE RUN", "/challenge-run"],
-    ["CHALLENGE ROOM", "/challenge-room"],
   ];
 
   return (
     <header className="sticky top-0 z-50 border-b-2 border-[var(--color-ash)] bg-[var(--color-void)]">
-      <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-2 px-4 py-3">
-        <Link href="/" className="flex items-center gap-3">
-          <span className="inline-block h-4 w-4 bg-[var(--color-blood)]" aria-hidden />
-          <span style={PX} className="text-xs text-[var(--color-bone)]">
-            VALO<span className="text-[var(--color-blood)]">{"//"}</span>ROULETTE
-          </span>
-        </Link>
-        <nav className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xl" aria-label="Sections">
-          {links.map(([label, href]) => {
-            const here = path === href;
-            return (
-              <a
-                key={href}
-                href={href}
-                aria-current={here ? "page" : undefined}
-                className={
-                  here
-                    ? "text-[var(--color-blood)]"
-                    : "text-[var(--color-smoke)] hover:text-[var(--color-bone)]"
-                }
-              >
-                [{label}]
-              </a>
-            );
-          })}
-        </nav>
-        <button
-          type="button"
-          style={PX}
-          onClick={() => {
-            const next = !on;
-            setOn(next);
-            store.setSfx(next);
-            sfx.toggle();
-          }}
-          className="cursor-pointer border-2 border-[var(--color-ash)] px-3 py-2 text-[10px] text-[var(--color-bone)] hover:border-[var(--color-blood)]"
-          aria-pressed={on}
-        >
-          SFX {on ? "ON" : "OFF"}
-        </button>
+      <div className="mx-auto w-full max-w-6xl px-4 py-3">
+        {/* Mobile Header */}
+        <div className="flex items-center justify-between sm:hidden">
+          <Link href="/" className="flex items-center gap-2">
+            <span className="inline-block h-4 w-4 bg-[var(--color-blood)]" aria-hidden />
+            <span style={PX} className="text-[10px] text-[var(--color-bone)]">
+              VALO<span className="text-[var(--color-blood)]">{"//"}</span>ROULETTE
+            </span>
+          </Link>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              style={PX}
+              onClick={(e) => {
+                e.stopPropagation();
+                const next = !on;
+                setOn(next);
+                store.setSfx(next);
+                sfx.toggle();
+              }}
+              className="touch-manipulation cursor-pointer border-2 border-[var(--color-ash)] bg-[var(--color-void)] px-2 py-1.5 text-[8px] text-[var(--color-bone)] active:bg-[var(--color-ash)]"
+              aria-pressed={on}
+            >
+              SFX {on ? "ON" : "OFF"}
+            </button>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setMenuOpen(!menuOpen);
+              }}
+              className="touch-manipulation cursor-pointer border-2 border-[var(--color-ash)] bg-[var(--color-void)] px-2.5 py-1 text-lg leading-none text-[var(--color-bone)] active:bg-[var(--color-ash)]"
+              aria-label="Toggle menu"
+              aria-expanded={menuOpen}
+            >
+              {menuOpen ? "✕" : "☰"}
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Menu */}
+        {menuOpen && (
+          <nav className="mt-3 flex flex-col gap-1 border-t-2 border-[var(--color-edge)] pt-3 sm:hidden">
+            {links.map(([label, href]) => {
+              const here = path === href;
+              return (
+                <Link
+                  key={href}
+                  href={href}
+                  className={`touch-manipulation block border-2 px-3 py-2.5 text-base ${
+                    here
+                      ? "border-[var(--color-blood)] bg-[var(--color-void)] text-[var(--color-blood)]"
+                      : "border-[var(--color-edge)] bg-[var(--color-void)] text-[var(--color-smoke)] active:bg-[var(--color-edge)]"
+                  }`}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  [{label}]
+                </Link>
+              );
+            })}
+          </nav>
+        )}
+
+        {/* Desktop Header */}
+        <div className="hidden items-center justify-between sm:flex">
+          <Link href="/" className="flex items-center gap-3">
+            <span className="inline-block h-4 w-4 bg-[var(--color-blood)]" aria-hidden />
+            <span style={PX} className="text-xs text-[var(--color-bone)]">
+              VALO<span className="text-[var(--color-blood)]">{"//"}</span>ROULETTE
+            </span>
+          </Link>
+          <nav className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xl" aria-label="Sections">
+            {links.map(([label, href]) => {
+              const here = path === href;
+              return (
+                <Link
+                  key={href}
+                  href={href}
+                  aria-current={here ? "page" : undefined}
+                  className={
+                    here
+                      ? "text-[var(--color-blood)]"
+                      : "text-[var(--color-smoke)] hover:text-[var(--color-bone)]"
+                  }
+                >
+                  [{label}]
+                </Link>
+              );
+            })}
+          </nav>
+          <button
+            type="button"
+            style={PX}
+            onClick={() => {
+              const next = !on;
+              setOn(next);
+              store.setSfx(next);
+              sfx.toggle();
+            }}
+            className="cursor-pointer border-2 border-[var(--color-ash)] px-3 py-2 text-[10px] text-[var(--color-bone)] hover:border-[var(--color-blood)]"
+            aria-pressed={on}
+          >
+            SFX {on ? "ON" : "OFF"}
+          </button>
+        </div>
       </div>
     </header>
   );

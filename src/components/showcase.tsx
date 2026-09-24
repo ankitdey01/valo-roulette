@@ -373,24 +373,46 @@ export function CardShare({
   }
 
   const btn =
-    "flex-1 cursor-pointer border-2 border-[var(--color-ash)] px-2 py-3 text-center text-[10px] text-[var(--color-bone)] hover:border-[var(--color-blood)]";
+    "flex-1 cursor-pointer border-2 border-[var(--color-ash)] px-3 py-3 flex items-center justify-center text-[var(--color-bone)] hover:border-[var(--color-blood)] hover:bg-[var(--color-blood)] hover:bg-opacity-10 transition-colors";
 
   return (
     <div className="flex flex-col gap-2">
-      <div className="flex gap-2" style={PX}>
-        <a className={btn} href={links.x} target="_blank" rel="noopener noreferrer">
-          [X]
+      <div className="flex gap-2">
+        <a 
+          className={btn} 
+          href={links.x} 
+          target="_blank" 
+          rel="noopener noreferrer"
+          title="Share on X (Twitter)"
+          aria-label="Share on X (Twitter)"
+        >
+          <img src="/icons/x-logo.svg" alt="X" width={24} height={24} className="w-6 h-6" />
         </a>
-        <a className={btn} href={links.whatsapp} target="_blank" rel="noopener noreferrer">
-          [WA]
+        <a 
+          className={btn} 
+          href={links.whatsapp} 
+          target="_blank" 
+          rel="noopener noreferrer"
+          title="Share on WhatsApp"
+          aria-label="Share on WhatsApp"
+        >
+          <img src="/icons/whatsapp-logo.svg" alt="WhatsApp" width={24} height={24} className="w-6 h-6" />
         </a>
-        <a className={btn} href={links.telegram} target="_blank" rel="noopener noreferrer">
-          [TG]
+        <a 
+          className={btn} 
+          href={links.telegram} 
+          target="_blank" 
+          rel="noopener noreferrer"
+          title="Share on Telegram"
+          aria-label="Share on Telegram"
+        >
+          <img src="/icons/telegram-logo.svg" alt="Telegram" width={24} height={24} className="w-6 h-6" />
         </a>
         <button
           type="button"
           className={btn}
-          style={PX}
+          title={copied ? "Copied!" : "Copy to clipboard"}
+          aria-label={copied ? "Copied!" : "Copy to clipboard"}
           onClick={() => {
             void navigator.clipboard?.writeText(caption).then(() => {
               setCopied(true);
@@ -398,21 +420,42 @@ export function CardShare({
             });
           }}
         >
-          {copied ? "[OK]" : "[COPY]"}
+          {copied ? (
+            <span style={PX} className="text-[var(--color-blood)] text-xs">✓</span>
+          ) : (
+            <img src="/icons/copy-icon.svg" alt="Copy" width={24} height={24} className="w-6 h-6" />
+          )}
         </button>
       </div>
-      <div className="flex gap-2" style={PX}>
-        <button type="button" className={btn} style={PX} onClick={download} disabled={busy}>
-          {busy ? "[...]" : "[SAVE PNG]"}
+      <div className="flex gap-2">
+        <button 
+          type="button" 
+          className={btn} 
+          onClick={download} 
+          disabled={busy}
+          title="Download PNG"
+          aria-label="Download PNG"
+        >
+          {busy ? (
+            <span style={PX} className="text-xs">...</span>
+          ) : (
+            <img src="/icons/download-icon.svg" alt="Download" width={24} height={24} className="w-6 h-6" />
+          )}
         </button>
         {canNative && (
-          <button type="button" className={btn} style={PX} onClick={nativeShare}>
-            [SHARE]
+          <button 
+            type="button" 
+            className={btn} 
+            onClick={nativeShare}
+            title="Native share"
+            aria-label="Native share"
+          >
+            <img src="/icons/share-icon.svg" alt="Share" width={24} height={24} className="w-6 h-6" />
           </button>
         )}
       </div>
-      <p className="text-lg text-[var(--color-ash)]">
-        {"// Text posts to X/WA/TG. PNG for Instagram."}
+      <p className="text-sm text-[var(--color-ash)]">
+        {"// Share text or download PNG for Instagram."}
       </p>
     </div>
   );
@@ -463,7 +506,7 @@ function BannerPreview({ run }: { run: ChallengeRun }) {
 
 /* ------------------------------ the board ------------------------------ */
 
-export function ShowcaseBoard() {
+export function ChallengeRunBoard() {
   const router = useRouter();
   const [active, setActive] = useState<ChallengeRun | null>(null);
   const [history, setHistory] = useState<ChallengeRun[]>([]);
@@ -498,22 +541,29 @@ export function ShowcaseBoard() {
   return (
     <div className="flex flex-col gap-6">
       {active ? (
-        <WindowCard title={`ACTIVE RUN // ${active.id}`} right="LIVE" hot>
+        <WindowCard title={`ACTIVE CHALLENGE // ${active.id}`} right="LIVE" hot>
           <div className="grid gap-6 lg:grid-cols-2">
             <div className="flex flex-col gap-3">
               <HudLabel k="AGENT" v={`${active.agent} [${active.role}]`} />
               <HudLabel k="WEAPON" v={`${active.weapon} ONLY`} />
               <HudLabel k="MISSION" v={active.challenge} />
               <HudLabel k="MOD" v={active.modifier} />
-              <p className="mt-2 text-2xl text-[var(--color-smoke)]">
+              <p className="mt-2 max-w-2xl text-lg text-[var(--color-smoke)] sm:text-xl md:text-2xl">
                 Play it. Stamp it. No lying.
               </p>
-              <div className="mt-2 flex flex-col gap-3 sm:flex-row">
-                <PixelButton variant="blood" className="flex-1" onClick={() => finish("cleared")}>
-                  [ MARK CLEARED ]
+              <div className="mt-4 flex flex-row flex-wrap gap-2 sm:gap-3">
+                <PixelButton 
+                  variant="blood" 
+                  className="flex-1 min-w-[130px] text-[10px] sm:text-xs" 
+                  onClick={() => finish("cleared")}
+                >
+                  [ CLEARED ]
                 </PixelButton>
-                <PixelButton className="flex-1" onClick={() => finish("failed")}>
-                  [ MARK FAILED ]
+                <PixelButton 
+                  className="flex-1 min-w-[130px] text-[10px] sm:text-xs" 
+                  onClick={() => finish("failed")}
+                >
+                  [ FAILED ]
                 </PixelButton>
               </div>
               <button
@@ -522,9 +572,16 @@ export function ShowcaseBoard() {
                   runs.setActive(null);
                   refresh();
                 }}
-                className="cursor-pointer text-left text-xl text-[var(--color-ash)] hover:text-[var(--color-blood)]"
+                className="mt-2 cursor-pointer text-left text-lg text-[var(--color-ash)] hover:text-[var(--color-blood)] sm:text-xl"
               >
                 {"[ abandon run ]"}
+              </button>
+              <button
+                type="button"
+                onClick={() => router.push("/challenge-room")}
+                className="mt-1 cursor-pointer text-left text-lg text-[var(--color-gold)] hover:text-[var(--color-blood)] sm:text-xl"
+              >
+                {"[ track rounds >>> ]"}
               </button>
             </div>
             <div>
@@ -536,23 +593,30 @@ export function ShowcaseBoard() {
           </div>
         </WindowCard>
       ) : (
-        <WindowCard title="CHALLENGE BOARD // NO ACTIVE RUN" right="IDLE">
-          <p className="max-w-2xl text-2xl text-[var(--color-smoke)]">
+        <WindowCard title="CHALLENGE RUN // NO ACTIVE CHALLENGE" right="IDLE">
+          <p className="max-w-2xl text-lg text-[var(--color-smoke)] sm:text-xl md:text-2xl">
             Roll a loadout. Play it. Stamp it. Flex it.
           </p>
-          <div className="mt-4 flex flex-col gap-3 sm:flex-row">
-            <PixelButton variant="blood" onClick={() => startNew()}>
-              [ START NEW CHALLENGE ]
+          <div className="mt-4 flex flex-row flex-wrap gap-2 sm:gap-3">
+            <PixelButton 
+              variant="blood" 
+              className="flex-1 min-w-[140px] text-[10px] sm:text-xs"
+              onClick={() => startNew()}
+            >
+              [ NEW CHALLENGE ]
             </PixelButton>
-            <PixelButton onClick={() => router.push("/chaos")}>
-              [ BUILD IN CHAOS ]
+            <PixelButton 
+              className="flex-1 min-w-[140px] text-[10px] sm:text-xs"
+              onClick={() => router.push("/chaos")}
+            >
+              [ CHAOS MODE ]
             </PixelButton>
           </div>
         </WindowCard>
       )}
 
       {history.length > 0 && (
-        <WindowCard title="HALL OF FATE // STAMPED RUNS" right={`${history.length}`}>
+        <WindowCard title="COMPLETED CHALLENGES // HISTORY" right={`${history.length}`}>
           <ul className="grid gap-4 md:grid-cols-2">
             {history.map((run) => (
               <li key={run.id} className="border-2 border-[var(--color-edge)] bg-[var(--color-void)] p-4">
@@ -631,11 +695,11 @@ export function ShowcaseGallery() {
   return (
     <div className="flex flex-col gap-6">
       <WindowCard title="FILTERS" right={`${filtered.length}/${history.length}`}>
-        <div className="grid gap-3 sm:grid-cols-4">
+        <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
           <select
             value={filterAgent}
             onChange={(e) => setFilterAgent(e.target.value)}
-            className="px-4 py-3 text-lg border-2 border-[var(--color-ash)] bg-[var(--color-void)] text-[var(--color-bone)] focus:border-[var(--color-blood)]"
+            className="px-3 py-3 text-base sm:text-lg border-2 border-[var(--color-ash)] bg-[var(--color-void)] text-[var(--color-bone)] focus:border-[var(--color-blood)]"
             style={PX}
           >
             {agents.map((a) => (
@@ -647,7 +711,7 @@ export function ShowcaseGallery() {
           <select
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value as RunStatus | "ALL")}
-            className="px-4 py-3 text-lg border-2 border-[var(--color-ash)] bg-[var(--color-void)] text-[var(--color-bone)] focus:border-[var(--color-blood)]"
+            className="px-3 py-3 text-base sm:text-lg border-2 border-[var(--color-ash)] bg-[var(--color-void)] text-[var(--color-bone)] focus:border-[var(--color-blood)]"
             style={PX}
           >
             <option value="ALL">ALL STATUSES</option>
@@ -657,7 +721,7 @@ export function ShowcaseGallery() {
           <select
             value={filterWeapon}
             onChange={(e) => setFilterWeapon(e.target.value)}
-            className="px-4 py-3 text-lg border-2 border-[var(--color-ash)] bg-[var(--color-void)] text-[var(--color-bone)] focus:border-[var(--color-blood)]"
+            className="px-3 py-3 text-base sm:text-lg border-2 border-[var(--color-ash)] bg-[var(--color-void)] text-[var(--color-bone)] focus:border-[var(--color-blood)]"
             style={PX}
           >
             {weapons.map((w) => (

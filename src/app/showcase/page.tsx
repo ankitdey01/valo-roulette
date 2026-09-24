@@ -4,11 +4,11 @@ import { ShowcaseGallery } from "@/components/showcase";
 export const metadata: Metadata = {
   title: "SHOWCASE // Valo Roulette",
   description:
-    "Browse the hall of fate. Compare challenge runs, filter by agent, status, and weapon. See who cleared what.",
+    "Compare all challenge runs. Browse the hall of fate, filter by agent, status, and weapon. See who cleared what.",
   openGraph: {
     title: "SHOWCASE // Valo Roulette",
     description:
-      "Hall of fate. Compare challenge runs. No rerolls.",
+      "Hall of fate. Compare all challenge runs. Filter and browse.",
   },
 };
 
@@ -19,13 +19,13 @@ export default function ShowcasePage() {
     <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-4 py-10">
       <div>
         <p style={PX} className="text-[10px] text-[var(--color-gold)]">
-          {"// HALL OF FATE"}
+          {"// COMPARE & FILTER"}
         </p>
-        <h1 style={PX} className="mt-3 text-2xl text-[var(--color-bone)] sm:text-3xl">
+        <h1 style={PX} className="mt-3 text-xl text-[var(--color-bone)] sm:text-2xl md:text-3xl">
           <span className="text-[var(--color-blood)]">SHOWCASE</span>
         </h1>
-        <p className="mt-2 max-w-2xl text-2xl text-[var(--color-smoke)]">
-          Every completed run. Filter. Compare. Flex.
+        <p className="mt-2 max-w-2xl text-lg text-[var(--color-smoke)] sm:text-xl md:text-2xl">
+          Compare all completed runs. Filter by agent, weapon, status.
         </p>
       </div>
       <ShowcaseGallery />
